@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/src/",
+                "${workspaceFolder}/src/engine",
+                "${workspaceFolder}/deps/SDL2/include",
+                "${workspaceFolder}/deps/SDLIMG/",
+                "${workspaceFolder}/deps/SDLTTF/",
+                "${workspaceFolder}/deps/tinyxml/",
+                "${workspaceFolder}/deps/base64/",
+                "${workspaceFolder}/deps/zlib/",
+                "${workspaceFolder}/deps/SDLMIXER/include"
+            ],
+            "browse": {
+                "path": [
+                    "${default}",
+                    "${workspaceFolder}/src/",
+                    "${workspaceFolder}/src/engine",
+                    "${workspaceFolder}/deps/SDL2/include",
+                    "${workspaceFolder}/deps/SDLIMG/",
+                    "${workspaceFolder}/deps/SDLTTF/",
+                    "${workspaceFolder}/deps/tinyxml/",
+                    "${workspaceFolder}/deps/base64/",
+                    "${workspaceFolder}/deps/zlib/",
+                    "${workspaceFolder}/deps/SDLMIXER/include"
+                ]
+            },
+            "defines": [ ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}
