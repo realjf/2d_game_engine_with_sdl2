@@ -1,4 +1,6 @@
 #include "engine.h"
+#include "graphics/texture_manager.h"
+#include "physics/transform.h"
 
 Engine *Engine::s_Instance = nullptr;
 
@@ -12,7 +14,7 @@ bool Engine::Init() {
     }
     m_Window = SDL_CreateWindow("2d game engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     if (m_Window == nullptr) {
-        SDL_Log("Failed to create SDL window: %s", SDL_GetError);
+        SDL_Log("Failed to create SDL window: %s", SDL_GetError());
         return false;
     }
     m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -20,10 +22,25 @@ bool Engine::Init() {
         SDL_Log("Failed to create SDL renderer: %s", SDL_GetError());
         return false;
     }
+
+    TextureManager::GetInstance()->Load("tree", "assets/tree.png");
+
+    Transform tf;
+    tf.Log();
     return m_IsRunning = true;
 }
 
 bool Engine::Clean() {
+
+    TextureManager::GetInstance()->Clean();
+
+    SDL_DestroyRenderer(m_Renderer);
+    SDL_DestroyWindow(m_Window);
+
+    IMG_Quit();
+    SDL_Quit();
+
+    return true;
 }
 
 void Engine::Quit() {
@@ -31,13 +48,14 @@ void Engine::Quit() {
 }
 
 void Engine::Update() {
-    SDL_Log("xxxxxxx");
+    // SDL_Log("xxxxxxx");
 }
 
 void Engine::Render() {
     SDL_SetRenderDrawColor(m_Renderer, 124, 218, 254, 255);
     SDL_RenderClear(m_Renderer);
 
+    TextureManager::GetInstance()->Draw("tree", 100, 100, 200, 160);
     SDL_RenderPresent(m_Renderer);
 }
 

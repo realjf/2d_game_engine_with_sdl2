@@ -2,27 +2,41 @@
 	path = deps/SDL2
 	url = https://github.com/libsdl-org/SDL.git
 	branch = SDL2
+	update = checkout
+	ignore = dirty
 [submodule "deps/SDLIMG"]
 	path = deps/SDLIMG
 	url = https://github.com/libsdl-org/SDL_image.git
 	branch = SDL2
+	update = checkout
+	ignore = dirty
 [submodule "deps/SDLTTF"]
 	path = deps/SDLTTF
 	url = https://github.com/libsdl-org/SDL_ttf.git
 	branch = SDL2
+	update = checkout
+	ignore = dirty
 [submodule "deps/SDLMIXER"]
 	path = deps/SDLMIXER
 	url = https://github.com/libsdl-org/SDL_mixer.git
 	branch = SDL2
+	update = checkout
+	ignore = dirty
 [submodule "deps/tinyxml"]
 	path = deps/tinyxml
 	url = https://github.com/realjf/tinyxml.git
 	branch = master
+	update = checkout
+	ignore = dirty
 [submodule "deps/zlib"]
 	path = deps/zlib
 	url = https://github.com/madler/zlib.git
 	branch = master
+	update = checkout
+	ignore = dirty
 [submodule "deps/base64"]
 	path = deps/base64
 	url = https://github.com/ReneNyffenegger/cpp-base64.git
 	branch = master
+	update = checkout
+	ignore = dirty
