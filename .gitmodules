@@ -40,3 +40,13 @@
 	branch = master
 	update = checkout
 	ignore = dirty
+[submodule "deps/Catch2"]
+	path = deps/Catch2
+	url = https://github.com/catchorg/Catch2.git
+	branch = v2.x
+	update = checkout
+	ignore = dirty
+[submodule "deps/gtest"]
+	path = deps/gtest
+	url = https://github.com/google/googletest.git
+	branch = main

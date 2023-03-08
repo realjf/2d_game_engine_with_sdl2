@@ -129,5 +129,8 @@ endif
 
 
 
+run:
+	@./bin/2d_game_engine
+
 
 .PHONY: rm_submod run build pull test run push deps pull_mods

@@ -71,3 +71,23 @@ macro(SETUP_TEST projname version)
         set_property(TARGET ${PROJ_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
     endif()
 endmacro()
+
+# Copy files from source directory to destination directory, substituting any
+# variables.  Create destination directory if it does not exist.
+macro(COPY_DIR srcDir destDir)
+    message(STATUS "Configuring directory ${destDir}")
+    make_directory(${destDir})
+
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${srcDir} ${destDir})
+endmacro(COPY_DIR)
+
+macro(COPY_FILE target srcfile dstdir)
+    set(CUSTOMTARGET ${target})
+    set(SRC ${srcfile})
+    set(DST ${dstdir})
+    add_custom_command(TARGET ${CUSTOMTARGET}
+        POST_BUILD
+        COMMAND echo "cope file..."
+        COMMAND ${CMAKE_COMMAND} -E copy ${SRC} ${DST}
+    )
+endmacro()
