@@ -2,6 +2,7 @@
 #include "graphics/texture_manager.h"
 #include <SDL.h>
 #include "inputs/input.h"
+#include "collision/collision_manager.h"
 
 void Warrior::Draw() {
     m_Animation->Draw(m_Transform->X, m_Transform->Y, m_Width, m_Height, m_Scale);
@@ -27,15 +28,29 @@ void Warrior::Update(float dt) {
         m_Animation->SetProps("viking_jump", 0, 5, 150);
     }
 
-    m_RigidBody->Update(dt);
+    m_Collider->Set(m_Transform->X, m_Transform->Y, 96, 96);
 
+    if (CollisionManager::GetInstance()->MapCollision(m_Collider->Get())) {
+        m_Transform->X = m_LastSafePosition.X;
+    }
+
+    m_RigidBody->Update(dt);
+    m_LastSafePosition.Y = m_Transform->Y;
     m_Transform->TranslateX(m_RigidBody->GetPosition().X);
     // m_Transform->TranslateY(m_RigidBody->GetPosition().Y);
+    m_Collider->Set(m_Transform->X, m_Transform->Y, 96, 96);
 
-    m_Animation->SetSpriteFrame((SDL_GetTicks() / m_Animation->GetAnimSpeed()) % (m_Animation->GetFrameCount()));
+    if (CollisionManager::GetInstance()->MapCollision(m_Collider->Get())) {
+        m_IsGrounded = true;
+        m_Transform->Y = m_LastSafePosition.Y;
+    } else {
+        m_IsGrounded = false;
+    }
 
     m_Origin->X = m_Transform->X + m_Width / 2;
     m_Origin->Y = m_Transform->Y + m_Height / 2;
+
+    m_Animation->SetSpriteFrame((SDL_GetTicks() / m_Animation->GetAnimSpeed()) % (m_Animation->GetFrameCount()));
     m_Animation->Update(false);
 }
 

@@ -4,6 +4,7 @@
 #include "character.h"
 #include "animation/animation.h"
 #include "physics/rigid_body.h"
+#include "physics/collider.h"
 
 class Warrior : public Character {
 public:
@@ -20,6 +21,9 @@ private:
 
     Animation *m_Animation;
     RigidBody *m_RigidBody;
+    Collider *m_Collider;
+    Vector2D m_LastSafePosition;
+    bool m_IsGrounded;
     int m_Direction;
 };
 

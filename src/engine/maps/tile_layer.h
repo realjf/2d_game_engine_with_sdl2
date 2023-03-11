@@ -28,7 +28,7 @@ public:
     TileLayer(int tileSize, int rowCount, int colCount, TileMap tilemap, TilesetList tilesets);
     virtual void Render();
     virtual void Update();
-    inline TileMap GetTilemap() { return m_Tilemap; }
+    inline TileMap GetTileMap() { return m_Tilemap; }
 
 private:
     int m_TileSize;
