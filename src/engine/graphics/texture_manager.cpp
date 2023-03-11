@@ -1,5 +1,6 @@
 #include "texture_manager.h"
 #include "engine.h"
+#include <iostream>
 
 TextureManager *TextureManager::s_Instance = nullptr;
 
@@ -18,6 +19,7 @@ bool TextureManager::Load(std::string id, std::string filename) {
 
     m_TextureMap[id] = texture;
     SDL_FreeSurface(surface);
+    std::cout << "Loaded texture: " << filename << std::endl;
     return true;
 }
 
@@ -45,4 +47,10 @@ void TextureManager::DrawFrame(std::string id, int x, int y, int width, int heig
     SDL_Rect srcRect = {width * frame, height * row, width, height};
     SDL_Rect dstRect = {x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
+}
+
+void TextureManager::DrawTile(std::string tilesetID, int tileSize, int x, int y, int row, int frame, SDL_RendererFlip flip) {
+    SDL_Rect srcRect = {tileSize * frame, tileSize * (row - 1), tileSize, tileSize};
+    SDL_Rect dstRect = {x, y, tileSize, tileSize};
+    SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[tilesetID], &srcRect, &dstRect, 0, nullptr, flip);
 }

@@ -6,7 +6,7 @@
 #include "layer.h"
 
 struct Tileset {
-    int First, LastID;
+    int FirstID, LastID;
     int RowCount, ColCount;
     int TileCount, TileSize;
     std::string Name, Source;
@@ -15,7 +15,7 @@ struct Tileset {
 using TilesetList = std::vector<Tileset>;
 using TileMap = std::vector<std::vector<int>>;
 
-class TileLayer {
+class TileLayer : public Layer {
 public:
     TileLayer(int tileSize, int rowCount, int colCount, TileMap tilemap, TilesetList tilesets);
     virtual void Render();

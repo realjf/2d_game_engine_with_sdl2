@@ -4,6 +4,7 @@
 #include "characters/warrior.h"
 #include "inputs/input.h"
 #include "timer/timer.h"
+#include "maps/map_parser.h"
 
 Engine *Engine::s_Instance = nullptr;
 Warrior *warrior = nullptr;
@@ -16,7 +17,9 @@ bool Engine::Init() {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
         return false;
     }
-    m_Window = SDL_CreateWindow("2d game engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+
+    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    m_Window = SDL_CreateWindow("2d game engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
     if (m_Window == nullptr) {
         SDL_Log("Failed to create SDL window: %s", SDL_GetError());
         return false;
@@ -26,6 +29,12 @@ bool Engine::Init() {
         SDL_Log("Failed to create SDL renderer: %s", SDL_GetError());
         return false;
     }
+
+    if (!MapParser::GetInstance()->Load()) {
+        std::cout << "Failed to load map" << std::endl;
+        return false;
+    }
+    m_Map = MapParser::GetInstance()->GetMap("level1");
 
     TextureManager::GetInstance()->Load("viking_run", "assets/viking_800x710.png");
     TextureManager::GetInstance()->Load("viking_idle", "assets/viking2_idle800x710.png");
@@ -55,12 +64,16 @@ void Engine::Quit() {
 void Engine::Update() {
     // SDL_Log("xxxxxxx");
     float dt = Timer::GetInstance()->GetDeltaTime();
+
+    m_Map->Update();
     warrior->Update(dt);
 }
 
 void Engine::Render() {
     SDL_SetRenderDrawColor(m_Renderer, 124, 218, 254, 255);
     SDL_RenderClear(m_Renderer);
+
+    m_Map->Render();
 
     warrior->Draw();
     SDL_RenderPresent(m_Renderer);
