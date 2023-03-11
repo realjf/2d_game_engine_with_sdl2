@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <memory>
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 640
@@ -30,7 +31,8 @@ public:
     inline SDL_Renderer *GetRenderer() { return m_Renderer; }
 
 private:
-    Engine() {}
+    Engine() {
+    }
 
 private:
     bool m_IsRunning;
