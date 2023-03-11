@@ -5,6 +5,7 @@
 #include "inputs/input.h"
 #include "timer/timer.h"
 #include "maps/map_parser.h"
+#include "camera/camera.h"
 
 Engine *Engine::s_Instance = nullptr;
 Warrior *warrior = nullptr;
@@ -45,6 +46,8 @@ bool Engine::Init() {
     TextureManager::GetInstance()->Load("viking_jump", "assets/viking2_800x710.png");
 
     warrior = new Warrior(new Properties("viking_idle", 100, 100, 800, 710, 0.1f));
+
+    Camera::GetInstance()->SetTarget(warrior->GetOrigin());
     return m_IsRunning = true;
 }
 
@@ -71,6 +74,8 @@ void Engine::Update() {
 
     m_Map->Update();
     warrior->Update(dt);
+
+    Camera::GetInstance()->Update(dt);
 }
 
 void Engine::Render() {
