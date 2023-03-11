@@ -1,5 +1,7 @@
 #include "tile_layer.h"
 #include "graphics/texture_manager.h"
+#include <iostream>
+#include <algorithm>
 
 TileLayer::TileLayer(int tileSize, int rowCount, int colCount, TileMap tilemap, TilesetList tilesets) {
     m_TileSize = tileSize;
@@ -14,24 +16,24 @@ TileLayer::TileLayer(int tileSize, int rowCount, int colCount, TileMap tilemap, 
 }
 
 void TileLayer::Render() {
-    for (unsigned int i = 0; i < m_RowCount; i++) {
-        for (unsigned int j = 0; j < m_ColCount; j++) {
+    for (int i = 0; i < m_RowCount; i++) {
+        for (int j = 0; j < m_ColCount; j++) {
             int tileID = m_Tilemap[i][j];
             if (tileID == 0)
                 continue;
             else {
-                int index;
+                unsigned int layerNo = 0;
                 if (m_Tilesets.size() > 1) {
                     for (unsigned int k = 1; k < m_Tilesets.size(); k++) {
-                        if (tileID > m_Tilesets[k].FirstID && tileID < m_Tilesets[k].LastID) {
+                        if (tileID >= m_Tilesets[k].FirstID && tileID <= m_Tilesets[k].LastID) {
                             tileID = tileID + m_Tilesets[k].TileCount - m_Tilesets[k].LastID;
-                            index = k;
+                            layerNo = k;
+
                             break;
                         }
                     }
                 }
-
-                Tileset ts = m_Tilesets[index];
+                Tileset ts = m_Tilesets[layerNo];
                 int tileRow = tileID / ts.ColCount;
                 int tileCol = tileID - tileRow * ts.ColCount - 1;
 

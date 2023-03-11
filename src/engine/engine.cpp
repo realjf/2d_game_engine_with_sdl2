@@ -35,6 +35,10 @@ bool Engine::Init() {
         return false;
     }
     m_Map = MapParser::GetInstance()->GetMap("level1");
+    if (m_Map == nullptr) {
+        std::cout << "Failed to init map" << std::endl;
+        return false;
+    }
 
     TextureManager::GetInstance()->Load("viking_run", "assets/viking_800x710.png");
     TextureManager::GetInstance()->Load("viking_idle", "assets/viking2_idle800x710.png");

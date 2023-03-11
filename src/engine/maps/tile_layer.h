@@ -5,12 +5,20 @@
 #include <vector>
 #include "layer.h"
 
-struct Tileset {
+class Tileset {
+public:
     int FirstID, LastID;
     int RowCount, ColCount;
     int TileCount, TileSize;
     std::string Name, Source;
 };
+
+// struct Tileset {
+//     int FirstID, LastID;
+//     int RowCount, ColCount;
+//     int TileCount, TileSize;
+//     std::string Name, Source;
+// };
 
 using TilesetList = std::vector<Tileset>;
 using TileMap = std::vector<std::vector<int>>;

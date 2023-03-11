@@ -50,7 +50,7 @@ bool MapParser::Parse(std::string id, std::string source) {
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
             TileLayer *tilelayer = ParseTileLayer(e, tilesets, tileSize, rowCount, colCount);
-            gameMap->GetMapLayers().push_back(tilelayer);
+            gameMap->PushLayer(tilelayer);
         }
     }
 
@@ -92,8 +92,6 @@ Tileset MapParser::ParseOutsideTileset(TiXmlElement *xmlTileset) {
 
     tileset.Name = pTilesetRoot->Attribute("name");
 
-    std::cout << GetMapDir() << std::endl;
-
     // first and the tileset to texture manager
     std::string tilesetImage = GetMapDir() + "/" + pTilesetRoot->FirstChildElement()->Attribute("source");
     tileset.Source = tilesetImage;
@@ -109,12 +107,17 @@ Tileset MapParser::ParseOutsideTileset(TiXmlElement *xmlTileset) {
 }
 
 TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset> tilesets, int tileSize, int rowCount, int colCount) {
-    TiXmlElement *data;
+    TiXmlElement *data = nullptr;
     for (TiXmlElement *e = xmlLayer->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
             data = e;
             break;
         }
+    }
+
+    if (data == nullptr) {
+        std::cout << "ERROR: Could not found data" << std::endl;
+        return nullptr;
     }
 
     // parse layer tile map
@@ -130,9 +133,12 @@ TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset
             std::stringstream convertor(id);
             convertor >> tilemap[row][col];
 
+            std::cout << tilemap[row][col] << ",";
+
             if (!iss.good())
                 break;
         }
+        std::cout << std::endl;
     }
 
     return (new TileLayer(tileSize, rowCount, colCount, tilemap, tilesets));
