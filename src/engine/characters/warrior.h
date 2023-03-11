@@ -6,6 +6,9 @@
 #include "physics/rigid_body.h"
 #include "physics/collider.h"
 
+#define JUMP_TIME 15.0f;
+#define JUMP_FORCE 10.0f;
+
 class Warrior : public Character {
 public:
     Warrior(Properties *props);
@@ -24,6 +27,10 @@ private:
     Collider *m_Collider;
     Vector2D m_LastSafePosition;
     bool m_IsGrounded;
+    bool m_IsJumping;
+    float m_JumpTime;
+    float m_JumpForce;
+    Vector2D m_Velocity;
     int m_Direction;
 };
 
