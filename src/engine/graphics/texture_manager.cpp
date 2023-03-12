@@ -46,6 +46,11 @@ bool TextureManager::ParseTextures(std::string source) {
     return true;
 }
 
+SDL_Texture* TextureManager::Load(std::string filename)
+{
+    
+}
+
 void TextureManager::Drop(std::string id) {
     SDL_DestroyTexture(m_TextureMap[id]);
     m_TextureMap.erase(id);
