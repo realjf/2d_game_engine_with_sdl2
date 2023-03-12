@@ -30,7 +30,7 @@ bool PlayState::Init() {
     int height = collisionLayer->GetHeight() * tileSize;
 
     Camera::GetInstance()->SetSceneLimit(width, height);
-    CollisionManager::GetInstance()->SetCollisionMap(collisionLayer->GetTileMap(), collisionLayer);
+    CollisionManager::GetInstance()->SetCollisionMap(collisionLayer->GetTileMap(), tileSize);
 
     Properties *props = new Properties("player_idle", 100, 100, 800, 710, 0.1f);
     GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", props);

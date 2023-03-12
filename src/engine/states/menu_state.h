@@ -7,6 +7,7 @@
 class MenuState : public GameState {
 public:
     MenuState();
+    virtual ~MenuState() {}
     virtual bool Init();
     virtual bool Exit();
     virtual void Update();

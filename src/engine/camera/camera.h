@@ -21,6 +21,9 @@ public:
     inline int GetSceneWidth() { return m_SceneWidth; }
     inline int GetSceneHeight() { return m_SceneHeight; }
 
+    inline void MoveX(float x) { m_Position.X = x; }
+    inline void MoveY(float y) { m_Position.Y = y; }
+
 private:
     Camera() {
         m_ViewBox = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};

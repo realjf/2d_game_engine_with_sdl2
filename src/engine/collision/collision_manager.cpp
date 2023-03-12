@@ -9,27 +9,24 @@ bool CollisionManager::CheckCollision(SDL_Rect a, SDL_Rect b) {
 }
 
 bool CollisionManager::MapCollision(SDL_Rect a) {
-    int tileSize = 32;
-    int RowCount = 20;
-    int ColCount = 60;
 
-    int left_tile = a.x / tileSize;
-    int right_tile = (a.x + a.w) / tileSize;
+    int left_tile = a.x / m_MapTileSize;
+    int right_tile = (a.x + a.w) / m_MapTileSize;
 
-    int top_tile = a.y / tileSize;
-    int bottom_tile = (a.y + a.h) / tileSize;
+    int top_tile = a.y / m_MapTileSize;
+    int bottom_tile = (a.y + a.h) / m_MapTileSize;
 
     if (left_tile < 0)
         left_tile = 0;
 
-    if (right_tile > ColCount)
-        right_tile = ColCount;
+    if (right_tile > m_MapWidth)
+        right_tile = m_MapWidth;
 
     if (top_tile < 0)
         top_tile = 0;
 
-    if (bottom_tile > RowCount)
-        bottom_tile = RowCount;
+    if (bottom_tile > m_MapHeight)
+        bottom_tile = m_MapHeight;
 
     for (int i = left_tile; i <= right_tile; ++i) {
         for (int j = top_tile; j <= bottom_tile; ++j) {
@@ -40,6 +37,13 @@ bool CollisionManager::MapCollision(SDL_Rect a) {
     }
 
     return false;
+}
+
+void CollisionManager::SetCollisionMap(TileMap map, int m_MapTileSize) {
+    m_CollisionTileMap = map;
+    m_MapTileSize = m_MapTileSize;
+    m_MapHeight = map.size();
+    m_MapWidth = map[0].size();
 }
 
 CollisionManager::CollisionManager() {

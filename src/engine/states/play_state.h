@@ -17,6 +17,7 @@
 class PlayState : public GameState {
 public:
     PlayState();
+    virtual ~PlayState(){}
     void Events();
     virtual bool Init();
     virtual bool Exit();
