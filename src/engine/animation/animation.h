@@ -6,22 +6,17 @@
 
 class Animation {
 public:
-    Animation() {}
+    Animation(bool repeat = true) : m_Repeat(repeat) {
+        m_IsEnded = false;
+    }
 
-    void Update(bool defaultAnim = true);
-    void Draw(float x, float y, int spriteWidth, int spriteHeight, float scale);
-    void SetProps(std::string textureID, int spriteRow, int frameCount, int animSpeed, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void SetSpriteFrame(int frame) { m_SpriteFrame = frame; }
-    void SetSpriteRow(int row) { m_SpriteRow = row; }
-    int GetSpriteRow() { return m_SpriteRow; }
-    int GetAnimSpeed() { return m_AnimSpeed; }
-    int GetFrameCount() { return m_FrameCount; }
+    virtual void Update(float dt) = 0;
+    inline bool IsEnded() { return m_IsEnded; }
 
-private:
-    int m_SpriteRow, m_SpriteFrame;
-    int m_AnimSpeed, m_FrameCount;
-    std::string m_TextureID;
-    SDL_RendererFlip m_Flip;
+protected:
+    bool m_Repeat;
+    bool m_IsEnded;
+    int m_CurrentFrame;
 };
 
 #endif /* _ANIMATION_H_ */

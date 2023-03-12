@@ -133,12 +133,12 @@ TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset
             std::stringstream convertor(id);
             convertor >> tilemap[row][col];
 
-            std::cout << tilemap[row][col] << ",";
+            // std::cout << tilemap[row][col] << ",";
 
             if (!iss.good())
                 break;
         }
-        std::cout << std::endl;
+        // std::cout << std::endl;
     }
 
     return (new TileLayer(tileSize, rowCount, colCount, tilemap, tilesets));

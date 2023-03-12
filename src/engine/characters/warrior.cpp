@@ -19,10 +19,15 @@ void Warrior::Update(float dt) {
     m_RigidBody->UnSetForce();
     m_Flip = SDL_FLIP_NONE;
     m_Velocity = 0;
+    m_IsRunning = false;
+    m_IsJumping = false;
+    m_IsAttacking = false;
+
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_A)) {
         // m_RigidBody->ApplyForceX(5 * BACKWARD);
         m_Direction = BACKWARD;
         m_Flip = SDL_FLIP_HORIZONTAL;
+        m_IsRunning = true;
         m_Velocity.X = 5 * m_Direction;
     }
 
@@ -30,6 +35,7 @@ void Warrior::Update(float dt) {
         // m_RigidBody->ApplyForceX(5 * FORWARD);
         m_Direction = FORWARD;
         m_Flip = SDL_FLIP_NONE;
+        m_IsRunning = true;
         m_Velocity.X = 5 * m_Direction;
     }
 
@@ -37,6 +43,7 @@ void Warrior::Update(float dt) {
         // m_RigidBody->ApplyForceY(5 * UPWARD);
         m_Direction = UPWARD;
         m_Flip = SDL_FLIP_HORIZONTAL;
+        m_IsRunning = true;
         m_Velocity.Y = 5 * m_Direction;
     }
 
@@ -44,9 +51,11 @@ void Warrior::Update(float dt) {
         // m_RigidBody->ApplyForceY(5 * DOWNWARD);
         m_Direction = DOWNWARD;
         m_Flip = SDL_FLIP_NONE;
+        m_IsRunning = true;
         m_Velocity.Y = 5 * m_Direction;
     }
 
+    // jump
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_SPACE) && m_IsGrounded) {
         m_IsJumping = true;
         m_IsGrounded = false;
@@ -89,7 +98,7 @@ void Warrior::Update(float dt) {
 
     AnimationState();
 
-    m_Animation->SetSpriteFrame((SDL_GetTicks() / m_Animation->GetAnimSpeed()) % (m_Animation->GetFrameCount()));
+    m_Animation->SetCurrentFrame((SDL_GetTicks() / m_Animation->GetSpeed()) % (m_Animation->GetFrameCount()));
     m_Animation->Update(false);
 }
 
@@ -98,20 +107,20 @@ void Warrior::Clean() {
 }
 
 void Warrior::AnimationState() {
-    m_Animation->SetProps("viking_idle", 0, 2, 300, m_Flip);
+    m_Animation->SetProps("player_idle", 0, 2, 300, m_Flip);
 
     if (m_IsRunning) {
-        m_Animation->SetProps("viking_run", 0, 5, 100, m_Flip);
+        m_Animation->SetProps("player_run", 0, 5, 100, m_Flip);
     }
 
     if (m_IsJumping) {
-        m_Animation->SetProps("viking_jump", 0, 5, 150, m_Flip);
+        m_Animation->SetProps("player_jump", 0, 5, 150, m_Flip);
     }
 }
 
 Warrior::Warrior(Properties *props) : Character(props) {
     m_RigidBody = new RigidBody();
-    m_Animation = new Animation();
+    m_Animation = new SpriteAnimation();
     m_Animation->SetProps(m_TextureID, 0, 5, 100, SDL_FLIP_HORIZONTAL);
 
     m_JumpTime = JUMP_TIME;

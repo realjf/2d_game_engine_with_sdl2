@@ -2,7 +2,7 @@
 #define _WARRIOR_H_
 
 #include "character.h"
-#include "animation/animation.h"
+#include "animation/sprite_animation.h"
 #include "physics/rigid_body.h"
 #include "physics/collider.h"
 
@@ -25,7 +25,7 @@ private:
     // int m_Row, m_Frame, m_FrameCount, m_RowCount;
     // int m_AnimSpeed;
 
-    Animation *m_Animation;
+    SpriteAnimation *m_Animation;
     RigidBody *m_RigidBody;
     Collider *m_Collider;
     Vector2D m_LastSafePosition;

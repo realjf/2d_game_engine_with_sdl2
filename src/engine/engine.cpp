@@ -41,11 +41,9 @@ bool Engine::Init() {
         return false;
     }
 
-    TextureManager::GetInstance()->Load("viking_run", "assets/viking_800x710.png");
-    TextureManager::GetInstance()->Load("viking_idle", "assets/viking2_idle800x710.png");
-    TextureManager::GetInstance()->Load("viking_jump", "assets/viking2_800x710.png");
+    TextureManager::GetInstance()->ParseTextures("assets/data/textures.xml");
 
-    warrior = new Warrior(new Properties("viking_idle", 100, 100, 800, 710, 0.1f));
+    warrior = new Warrior(new Properties("player_idle", 100, 100, 800, 710, 0.1f));
 
     Camera::GetInstance()->SetTarget(warrior->GetOrigin());
     return m_IsRunning = true;

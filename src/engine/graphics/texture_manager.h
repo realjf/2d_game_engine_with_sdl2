@@ -11,6 +11,7 @@ public:
     static TextureManager *GetInstance() { return s_Instance = (s_Instance != nullptr) ? s_Instance : new TextureManager(); }
 
     bool Load(std::string id, std::string filename);
+    bool ParseTextures(std::string source);
     void Drop(std::string id);
     void Clean();
 
