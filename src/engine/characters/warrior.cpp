@@ -27,7 +27,7 @@ void Warrior::Update(float dt) {
         m_Direction = BACKWARD;
         m_Flip = SDL_FLIP_HORIZONTAL;
         m_IsRunning = true;
-        m_Velocity.X = 5 * m_Direction;
+        m_Velocity.X = PLAYER_SPEED * m_Direction;
     }
 
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_D)) {
@@ -35,7 +35,7 @@ void Warrior::Update(float dt) {
         m_Direction = FORWARD;
         m_Flip = SDL_FLIP_NONE;
         m_IsRunning = true;
-        m_Velocity.X = 5 * m_Direction;
+        m_Velocity.X = PLAYER_SPEED * m_Direction;
     }
 
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_W)) {
@@ -43,7 +43,7 @@ void Warrior::Update(float dt) {
         m_Direction = UPWARD;
         m_Flip = SDL_FLIP_HORIZONTAL;
         m_IsRunning = true;
-        m_Velocity.Y = 5 * m_Direction;
+        m_Velocity.Y = PLAYER_SPEED * m_Direction;
     }
 
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_S)) {
@@ -51,7 +51,7 @@ void Warrior::Update(float dt) {
         m_Direction = DOWNWARD;
         m_Flip = SDL_FLIP_NONE;
         m_IsRunning = true;
-        m_Velocity.Y = 5 * m_Direction;
+        m_Velocity.Y = PLAYER_SPEED * m_Direction;
     }
 
     // jump

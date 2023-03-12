@@ -29,6 +29,9 @@ public:
     virtual void Render();
     virtual void Update();
     inline TileMap GetTileMap() { return m_Tilemap; }
+    inline int GetTileSize() { return m_TileSize; }
+    inline int GetWidth() { return m_RowCount; }
+    inline int GetHeight() { return m_ColCount; }
 
 private:
     int m_TileSize;

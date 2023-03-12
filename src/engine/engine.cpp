@@ -8,6 +8,8 @@
 #include "camera/camera.h"
 #include "characters/enemy.h"
 #include "factory/object_factory.h"
+#include "states/menu_state.h"
+#include "states/play_state.h"
 
 Engine *Engine::s_Instance = nullptr;
 
@@ -32,30 +34,14 @@ bool Engine::Init() {
         return false;
     }
 
-    if (!MapParser::GetInstance()->Load()) {
-        std::cout << "Failed to load map" << std::endl;
-        return false;
-    }
-    m_Map = MapParser::GetInstance()->GetMap("level1");
-    if (m_Map == nullptr) {
-        std::cout << "Failed to init map" << std::endl;
-        return false;
-    }
+    m_StateManager = new StateManager();
+    m_StateManager->PushState(new PlayState());
 
-    TextureManager::GetInstance()->ParseTextures("assets/data/textures.xml");
-
-    Properties *props = new Properties("player_idle", 100, 100, 800, 710, 0.1f);
-    GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", props);
-    Properties *props2 = new Properties("boss_idle", 400, 100, 800, 710, 0.1f);
-    GameObject *enemy = ObjectFactory::GetInstance()->CreateObject("BOSS", props2);
-    m_GameObjects.push_back(player);
-    m_GameObjects.push_back(enemy);
-
-    Camera::GetInstance()->SetTarget(player->GetOrigin());
     return m_IsRunning = true;
 }
 
 bool Engine::Clean() {
+    m_StateManager->Clean();
 
     TextureManager::GetInstance()->Clean();
 
@@ -76,24 +62,14 @@ void Engine::Update() {
     // SDL_Log("xxxxxxx");
     float dt = Timer::GetInstance()->GetDeltaTime();
 
-    m_Map->Update();
-
-    for (unsigned int i = 0; i < m_GameObjects.size(); i++) {
-        m_GameObjects[i]->Update(dt);
-    }
-
-    Camera::GetInstance()->Update(dt);
+    m_StateManager->Update();
 }
 
 void Engine::Render() {
     SDL_SetRenderDrawColor(m_Renderer, 124, 218, 254, 255);
     SDL_RenderClear(m_Renderer);
 
-    m_Map->Render();
-
-    for (unsigned int i = 0; i < m_GameObjects.size(); i++) {
-        m_GameObjects[i]->Draw();
-    }
+    m_StateManager->Render();
 
     SDL_RenderPresent(m_Renderer);
 }

@@ -17,6 +17,7 @@ bool MenuState::Exit() {
 }
 
 void MenuState::Update() {
+    
 }
 
 void MenuState::Render() {

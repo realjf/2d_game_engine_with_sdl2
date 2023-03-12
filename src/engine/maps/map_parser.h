@@ -18,7 +18,7 @@ public:
         return s_Instance;
     }
 
-    bool Load();
+    GameMap *Load(std::string source);
     void Clean();
     inline GameMap *GetMap(std::string id) {
         return m_Maps[id];

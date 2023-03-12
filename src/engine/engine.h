@@ -7,6 +7,7 @@
 #include <vector>
 #include "maps/game_map.h"
 #include "object/game_object.h"
+#include "states/state_manager.h"
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 640
@@ -32,7 +33,7 @@ public:
 
     inline bool IsRunning() { return m_IsRunning; }
     inline SDL_Renderer *GetRenderer() { return m_Renderer; }
-    inline GameMap *GetMap() { return m_Map; }
+    inline StateManager *GetStateManager() { return m_StateManager; }
 
 private:
     Engine() {
@@ -42,8 +43,8 @@ private:
     bool m_IsRunning;
     SDL_Window *m_Window;
     SDL_Renderer *m_Renderer;
-    GameMap *m_Map;
     std::vector<GameObject *> m_GameObjects;
+    StateManager *m_StateManager;
     static Engine *s_Instance;
 };
 

@@ -4,8 +4,45 @@
 
 MapParser *MapParser::s_Instance = nullptr;
 
-bool MapParser::Load() {
-    return Parse("level1", "assets/maps/map.tmx");
+GameMap *MapParser::Load(std::string source) {
+    TiXmlDocument xml;
+    xml.LoadFile(source.c_str());
+    ExtractMapDir(source.c_str());
+
+    if (xml.Error()) {
+        std::cout << "Error: Failed to load: " << source << std::endl;
+        return nullptr;
+    }
+
+    TiXmlElement *root = xml.RootElement();
+    int rowCount, colCount, tileSize = 0;
+
+    root->Attribute("width", &colCount);
+    root->Attribute("height", &rowCount);
+    root->Attribute("tilewidth", &tileSize);
+
+    // parse tileset
+    TilesetList tilesets;
+    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
+        if (e->Value() == std::string("tileset")) {
+            if (e->HasAttribute("source") != TIXML_SUCCESS) {
+                tilesets.push_back(ParseEmbedTileset(e));
+            } else {
+                tilesets.push_back(ParseOutsideTileset(e));
+            }
+        }
+    }
+
+    // parse layers
+    GameMap *gameMap = new GameMap();
+    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
+        if (e->Value() == std::string("layer")) {
+            TileLayer *tilelayer = ParseTileLayer(e, tilesets, tileSize, rowCount, colCount);
+            gameMap->PushLayer(tilelayer);
+        }
+    }
+
+    return gameMap;
 }
 
 void MapParser::Clean() {

@@ -26,6 +26,14 @@ public:
         m_MapLayers.push_back(layer);
     }
 
+    void Clean() {
+        for (auto layer : m_MapLayers) {
+            delete layer;
+        }
+
+        m_MapLayers.clear();
+    }
+
 private:
     std::vector<Layer *> m_MapLayers;
 };

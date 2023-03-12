@@ -14,6 +14,12 @@ public:
     inline SDL_Rect GetViewBox() { return m_ViewBox; }
     inline Vector2D GetPosition() { return m_Position; }
     inline void SetTarget(Point *target) { m_Target = target; }
+    inline void SetSceneLimit(int width, int height) {
+        m_SceneWidth = width;
+        m_SceneHeight = height;
+    }
+    inline int GetSceneWidth() { return m_SceneWidth; }
+    inline int GetSceneHeight() { return m_SceneHeight; }
 
 private:
     Camera() {
@@ -23,6 +29,7 @@ private:
     Point *m_Target;
     Vector2D m_Position;
     SDL_Rect m_ViewBox;
+    int m_SceneWidth, m_SceneHeight;
 
     static Camera *s_Instance;
 };

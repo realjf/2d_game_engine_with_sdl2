@@ -12,6 +12,11 @@ public:
     bool CheckCollision(SDL_Rect a, SDL_Rect b);
     bool MapCollision(SDL_Rect a);
 
+    inline void SetCollisionMap(TileMap map, TileLayer *layer) {
+        m_CollisionTileMap = map;
+        m_CollisionLayer = layer;
+    }
+
     inline static CollisionManager *GetInstance() { return s_Instance = (s_Instance != nullptr) ? s_Instance : new CollisionManager(); }
 
 private:

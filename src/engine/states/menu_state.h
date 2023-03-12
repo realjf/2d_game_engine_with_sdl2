@@ -1,7 +1,6 @@
 #ifndef _MENU_STATE_H_
 #define _MENU_STATE_H_
 
-#include <SDL.h>
 #include <iostream>
 #include "game_state.h"
 
@@ -18,9 +17,6 @@ private:
     static void ExitGame();
     static void Settings();
     static void Editor();
-
-private:
-    SDL_Renderer *m_Ctxt;
 };
 
 #endif /* _MENU_STATE_H_ */

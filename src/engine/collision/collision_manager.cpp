@@ -43,6 +43,4 @@ bool CollisionManager::MapCollision(SDL_Rect a) {
 }
 
 CollisionManager::CollisionManager() {
-    m_CollisionLayer = (TileLayer *)Engine::GetInstance()->GetMap()->GetMapLayers().front();
-    m_CollisionTileMap = m_CollisionLayer->GetTileMap();
 }

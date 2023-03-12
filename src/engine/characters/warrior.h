@@ -11,6 +11,8 @@
 
 #define ATTACK_TIME 20.0f
 
+#define PLAYER_SPEED 10
+
 class Warrior : public Character {
 public:
     Warrior(Properties *props);
