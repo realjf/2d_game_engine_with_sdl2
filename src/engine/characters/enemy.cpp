@@ -1,4 +1,7 @@
 #include "enemy.h"
+#include "factory/object_factory.h"
+
+static Registrar<Enemy> registrar("BOSS");
 
 Enemy::Enemy(Properties *props) : Character(props) {
     m_RigidBody = new RigidBody();
@@ -15,6 +18,8 @@ Enemy::Enemy(Properties *props) : Character(props) {
 
 void Enemy::Draw() {
     m_Animation->DrawFrame(m_Transform->X, m_Transform->Y, m_XScale, m_YScale, m_Flip);
+
+    m_Collider->Draw();
 }
 
 void Enemy::Clean() {

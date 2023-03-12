@@ -7,6 +7,7 @@
 #include "maps/map_parser.h"
 #include "camera/camera.h"
 #include "characters/enemy.h"
+#include "factory/object_factory.h"
 
 Engine *Engine::s_Instance = nullptr;
 
@@ -43,7 +44,8 @@ bool Engine::Init() {
 
     TextureManager::GetInstance()->ParseTextures("assets/data/textures.xml");
 
-    Warrior *player = new Warrior(new Properties("player_idle", 100, 100, 800, 710, 0.1f));
+    Properties *props = new Properties("player_idle", 100, 100, 800, 710, 0.1f);
+    GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", props);
     Enemy *enemy = new Enemy(new Properties("boss_idle", 400, 100, 800, 710, 0.1f));
     m_GameObjects.push_back(player);
     m_GameObjects.push_back(enemy);

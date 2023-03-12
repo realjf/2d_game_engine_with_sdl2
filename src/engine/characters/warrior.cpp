@@ -4,15 +4,14 @@
 #include "inputs/input.h"
 #include "collision/collision_manager.h"
 #include "camera/camera.h"
+#include "factory/object_factory.h"
+
+static Registrar<Warrior> registrar("PLAYER");
 
 void Warrior::Draw() {
     m_Animation->Draw(m_Transform->X, m_Transform->Y, m_Width, m_Height, m_Scale);
 
-    Vector2D cam = Camera::GetInstance()->GetPosition();
-    SDL_Rect box = m_Collider->Get();
-    box.x -= cam.X;
-    box.y -= cam.Y;
-    SDL_RenderDrawRect(Engine::GetInstance()->GetRenderer(), &box);
+    m_Collider->Draw();
 }
 
 void Warrior::Update(float dt) {

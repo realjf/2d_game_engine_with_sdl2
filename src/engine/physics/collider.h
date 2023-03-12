@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 #include "collision/collision_manager.h"
+#include "camera/camera.h"
+#include "engine.h"
 
 class Collider {
 public:
