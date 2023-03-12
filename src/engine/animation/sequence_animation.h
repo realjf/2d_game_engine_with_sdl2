@@ -15,9 +15,9 @@ public:
     std::vector<std::string> TextureIDs;
 };
 
-class SequenceAnnotation : public Animation {
+class SequenceAnimation : public Animation {
 public:
-    SequenceAnnotation(bool repeat);
+    SequenceAnimation(bool repeat = true);
 
     virtual void Update(float dt);
     void Parse(std::string source);

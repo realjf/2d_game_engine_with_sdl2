@@ -49,6 +49,7 @@ protected:
     std::string m_TextureID;
     SDL_RendererFlip m_Flip;
     float m_Scale;
+    float m_XScale, m_YScale;
     Point *m_Origin;
 };
 

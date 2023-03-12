@@ -6,9 +6,9 @@
 #include "timer/timer.h"
 #include "maps/map_parser.h"
 #include "camera/camera.h"
+#include "characters/enemy.h"
 
 Engine *Engine::s_Instance = nullptr;
-Warrior *warrior = nullptr;
 
 Engine::~Engine() {
 }
@@ -43,9 +43,12 @@ bool Engine::Init() {
 
     TextureManager::GetInstance()->ParseTextures("assets/data/textures.xml");
 
-    warrior = new Warrior(new Properties("player_idle", 100, 100, 800, 710, 0.1f));
+    Warrior *player = new Warrior(new Properties("player_idle", 100, 100, 800, 710, 0.1f));
+    Enemy *enemy = new Enemy(new Properties("boss_idle", 400, 100, 800, 710, 0.1f));
+    m_GameObjects.push_back(player);
+    m_GameObjects.push_back(enemy);
 
-    Camera::GetInstance()->SetTarget(warrior->GetOrigin());
+    Camera::GetInstance()->SetTarget(player->GetOrigin());
     return m_IsRunning = true;
 }
 
@@ -71,7 +74,10 @@ void Engine::Update() {
     float dt = Timer::GetInstance()->GetDeltaTime();
 
     m_Map->Update();
-    warrior->Update(dt);
+
+    for (unsigned int i = 0; i < m_GameObjects.size(); i++) {
+        m_GameObjects[i]->Update(dt);
+    }
 
     Camera::GetInstance()->Update(dt);
 }
@@ -82,7 +88,10 @@ void Engine::Render() {
 
     m_Map->Render();
 
-    warrior->Draw();
+    for (unsigned int i = 0; i < m_GameObjects.size(); i++) {
+        m_GameObjects[i]->Draw();
+    }
+
     SDL_RenderPresent(m_Renderer);
 }
 
