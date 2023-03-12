@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"/>
+<?xml version="1.0" encoding="UTF-8"?>
 <textures>
-<texture id="player_run" source="assets/viking_800x710.png"/>
-<texture id="player_idle" source="assets/viking2_idle800x710.png"/>
-<texture id="player_jump" source="assets/viking2_800x710.png"/>
+    <texture id="player_run" source="assets/viking_800x710.png" />
+    <texture id="player_idle" source="assets/viking2_idle800x710.png" />
+    <texture id="player_jump" source="assets/viking2_800x710.png" />
+
+    <texture id="boss_idle1" source="assets/viking2_idle800x710.png" />
 </textures>

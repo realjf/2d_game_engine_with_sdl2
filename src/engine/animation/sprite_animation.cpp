@@ -1,11 +1,11 @@
 #include "sprite_animation.h"
 #include "graphics/texture_manager.h"
 
-void SpriteAnimation::Draw(float x, float y, int spriteWidth, int spriteHeight, float scale, SDL_RendererFlip flip) {
+void SpriteAnimation::Draw(float x, float y, int width, int height, float scale, SDL_RendererFlip flip) {
     if (flip != SDL_FLIP_NONE) {
         m_Flip = flip;
     }
-    TextureManager::GetInstance()->DrawFrame(m_TextureID, x, y, spriteWidth, spriteHeight, scale, m_SpriteRow, m_CurrentFrame, m_Flip);
+    TextureManager::GetInstance()->DrawFrame(m_TextureID, x, y, width, height, scale, m_SpriteRow, m_CurrentFrame, m_Flip);
 }
 
 void SpriteAnimation::SetProps(std::string textureID, int spriteRow, int frameCount, int animSpeed, SDL_RendererFlip flip) {

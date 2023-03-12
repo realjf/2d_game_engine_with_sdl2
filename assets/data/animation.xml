@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animations>
+    <sequence id="boss_idle" frameCount="1" speed="100" width="460" height="352">
+        <frame textureID="boss_idle1" />
+    </sequence>
+</animations>

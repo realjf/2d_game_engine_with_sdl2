@@ -8,7 +8,7 @@ public:
     SpriteAnimation(bool repeat = true);
 
     virtual void Update(float dt);
-    void Draw(float x, float y, int spriteWidth, int spriteHeight, float scale, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void Draw(float x, float y, int width, int height, float scale, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void SetProps(std::string textureID, int spriteRow, int frameCount, int animSpeed, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void SetCurrentFrame(int frame) { m_CurrentFrame = frame; }
     void SetSpriteRow(int row) { m_SpriteRow = row; }
