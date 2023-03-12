@@ -52,7 +52,6 @@ void Warrior::Update(float dt) {
         m_IsJumping = true;
         m_IsGrounded = false;
         // m_RigidBody->ApplyForceY(UPWARD * m_JumpForce);
-        m_Animation->SetProps("viking_jump", 0, 5, 150);
     }
     if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_SPACE) && m_IsJumping && m_JumpTime > 0) {
         m_JumpTime -= dt;
@@ -86,6 +85,10 @@ void Warrior::Update(float dt) {
     //     m_IsGrounded = false;
     // }
 
+    if (m_IsJumping) {
+        m_Animation->SetProps("viking_jump", 0, 5, 150);
+    }
+
     m_Origin->X = m_Transform->X + m_Width / 2;
     m_Origin->Y = m_Transform->Y + m_Height / 2;
 
@@ -94,7 +97,7 @@ void Warrior::Update(float dt) {
 }
 
 void Warrior::Clean() {
-    TextureManager::GetInstance()->Clean();
+    TextureManager::GetInstance()->Drop(m_TextureID);
 }
 
 Warrior::Warrior(Properties *props) : Character(props) {
