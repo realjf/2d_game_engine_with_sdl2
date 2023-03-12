@@ -2,6 +2,7 @@
 #define _COLLIDER_H_
 
 #include <SDL.h>
+#include "collision/collision_manager.h"
 
 class Collider {
 public:
@@ -16,6 +17,20 @@ public:
             y - m_Buffer.y,
             w - m_Buffer.w,
             h - m_Buffer.h};
+    }
+
+    bool CollideWithMap() {
+        return CollisionManager::GetInstance()->MapCollision(m_Box);
+    }
+
+    void Draw() {
+        Vector2D cam = Camera::GetInstance()->GetPosition();
+        SDL_Rect box = {
+            (int)(m_Box.x - cam.X),
+            (int)(m_Box.y - cam.Y),
+            m_Box.w,
+            m_Box.h};
+        SDL_RenderDrawRect(Engine::GetInstance()->GetRenderer(), &box);
     }
 
 private:
