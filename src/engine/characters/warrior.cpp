@@ -99,7 +99,7 @@ void Warrior::Update(float dt) {
     AnimationState();
 
     m_Animation->SetCurrentFrame((SDL_GetTicks() / m_Animation->GetSpeed()) % (m_Animation->GetFrameCount()));
-    m_Animation->Update(false);
+    m_Animation->Update(dt);
 }
 
 void Warrior::Clean() {
