@@ -22,6 +22,7 @@ void Camera::Update(float dt) {
             m_ViewBox.y = (SCREEN_HEIGHT - m_ViewBox.h);
         }
 
+        // std::cout << "ViewBox: " << m_Target->X << "," << m_Target->Y << "," << m_ViewBox.x << "," << m_ViewBox.y << "," << m_ViewBox.w << "," << m_ViewBox.h << std::endl;
         m_Position = Vector2D(m_ViewBox.x, m_ViewBox.y);
     }
 }

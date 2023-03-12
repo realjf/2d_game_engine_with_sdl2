@@ -46,7 +46,8 @@ bool Engine::Init() {
 
     Properties *props = new Properties("player_idle", 100, 100, 800, 710, 0.1f);
     GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", props);
-    Enemy *enemy = new Enemy(new Properties("boss_idle", 400, 100, 800, 710, 0.1f));
+    Properties *props2 = new Properties("boss_idle", 400, 100, 800, 710, 0.1f);
+    GameObject *enemy = ObjectFactory::GetInstance()->CreateObject("BOSS", props2);
     m_GameObjects.push_back(player);
     m_GameObjects.push_back(enemy);
 

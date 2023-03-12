@@ -92,8 +92,8 @@ void Warrior::Update(float dt) {
     //     m_IsGrounded = false;
     // }
 
-    m_Origin->X = m_Transform->X + m_Width / 2;
-    m_Origin->Y = m_Transform->Y + m_Height / 2;
+    m_Origin->X = m_Transform->X + (m_Width * m_Scale) / 2;
+    m_Origin->Y = m_Transform->Y + (m_Height * m_Scale) / 2;
 
     AnimationState();
 
