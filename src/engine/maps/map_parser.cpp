@@ -162,7 +162,7 @@ TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset
     std::istringstream iss(matrix);
     std::string id;
 
-    TileMap tilemap(rowCount, std::vector<int>(colCount, 0));
+    TileMatrix tilemap(rowCount, std::vector<int>(colCount, 0));
 
     for (int row = 0; row < rowCount; row++) {
         for (int col = 0; col < colCount; col++) {

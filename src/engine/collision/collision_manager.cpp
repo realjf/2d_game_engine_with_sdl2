@@ -39,7 +39,7 @@ bool CollisionManager::MapCollision(SDL_Rect a) {
     return false;
 }
 
-void CollisionManager::SetCollisionMap(TileMap map, int m_MapTileSize) {
+void CollisionManager::SetCollisionMap(TileMatrix map, int m_MapTileSize) {
     m_CollisionTileMap = map;
     m_MapTileSize = m_MapTileSize;
     m_MapHeight = map.size();
