@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
     }
 
     Engine::GetInstance()->Clean();
+    Timer::GetInstance()->Clean();
 
     return 0;
 }
