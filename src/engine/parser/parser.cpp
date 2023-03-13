@@ -1,22 +1,66 @@
-#include "map_parser.h"
-#include <filesystem>
-#include "engine.h"
+#include "parser.h"
+#include "sounds/sound_manager.h"
+#include "graphics/texture_manager.h"
 
-MapParser *MapParser::s_Instance = nullptr;
+Parser *Parser::s_Instance = nullptr;
 
-TileMap *MapParser::Load(std::string source) {
+bool Parser::ParseSounds(std::string source) {
+    TiXmlDocument xml;
+    xml.LoadFile(source.c_str());
+    if (xml.Error()) {
+        std::cout << "Failed to load: " << source << std::endl;
+        return false;
+    }
+
+    TiXmlElement *root = xml.RootElement();
+    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
+        if (e->Value() == std::string("effect")) {
+            SoundManager::GetInstance()->LoadEffect(e->Attribute("id"), e->Attribute("source"));
+            continue;
+        }
+
+        if (e->Value() == std::string("music")) {
+            SoundManager::GetInstance()->LoadMusic(e->Attribute("id"), e->Attribute("source"));
+            continue;
+        }
+    }
+
+    std::cout << source << " Parsed!" << std::endl;
+    return true;
+}
+
+bool Parser::ParseTextures(std::string source) {
+    TiXmlDocument xml;
+    xml.LoadFile(source.c_str());
+    if (xml.Error()) {
+        std::cout << "Failed to load: " << source << std::endl;
+        return false;
+    }
+
+    TiXmlElement *root = xml.RootElement();
+    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
+        if (e->Value() == std::string("texture")) {
+            std::string id = e->Attribute("id");
+            std::string source = e->Attribute("source");
+            TextureManager::GetInstance()->Load(id, source);
+        }
+    }
+
+    std::cout << source << " Parsed!" << std::endl;
+    return true;
+}
+
+TileMap *Parser::ParseMap(std::string source) {
     TiXmlDocument xml;
     xml.LoadFile(source.c_str());
     ExtractMapDir(source.c_str());
-
     if (xml.Error()) {
-        std::cout << "Error: Failed to load: " << source << std::endl;
+        std::cout << "Failed to load: " << source << std::endl;
         return nullptr;
     }
 
     TiXmlElement *root = xml.RootElement();
-    int rowCount, colCount, tileSize = 0;
-
+    int colCount, rowCount, tileSize = 0;
     root->Attribute("width", &colCount);
     root->Attribute("height", &rowCount);
     root->Attribute("tilewidth", &tileSize);
@@ -45,57 +89,7 @@ TileMap *MapParser::Load(std::string source) {
     return gameMap;
 }
 
-void MapParser::Clean() {
-    std::map<std::string, TileMap *>::iterator it;
-    for (it = m_Maps.begin(); it != m_Maps.end(); it++) {
-        it->second = nullptr;
-    }
-    m_Maps.clear();
-}
-
-bool MapParser::Parse(std::string id, std::string source) {
-    TiXmlDocument xml;
-    xml.LoadFile(source.c_str());
-    ExtractMapDir(source.c_str());
-
-    if (xml.Error()) {
-        std::cout << "Error: Failed to load: " << source << std::endl;
-        return false;
-    }
-
-    TiXmlElement *root = xml.RootElement();
-    int rowCount, colCount, tileSize = 0;
-
-    root->Attribute("width", &colCount);
-    root->Attribute("height", &rowCount);
-    root->Attribute("tilewidth", &tileSize);
-
-    // parse tileset
-    TilesetList tilesets;
-    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
-        if (e->Value() == std::string("tileset")) {
-            if (e->HasAttribute("source") != TIXML_SUCCESS) {
-                tilesets.push_back(ParseEmbedTileset(e));
-            } else {
-                tilesets.push_back(ParseOutsideTileset(e));
-            }
-        }
-    }
-
-    // parse layers
-    TileMap *gameMap = new TileMap();
-    for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
-        if (e->Value() == std::string("layer")) {
-            TileLayer *tilelayer = ParseTileLayer(e, tilesets, tileSize, rowCount, colCount);
-            gameMap->PushLayer(tilelayer);
-        }
-    }
-
-    m_Maps[id] = gameMap;
-    return true;
-}
-
-Tileset MapParser::ParseEmbedTileset(TiXmlElement *xmlTileset) {
+Tileset Parser::ParseEmbedTileset(TiXmlElement *xmlTileset) {
     Tileset tileset;
     tileset.Name = xmlTileset->Attribute("name");
     xmlTileset->Attribute("firstgid", &tileset.FirstID);
@@ -113,7 +107,7 @@ Tileset MapParser::ParseEmbedTileset(TiXmlElement *xmlTileset) {
     return tileset;
 }
 
-Tileset MapParser::ParseOutsideTileset(TiXmlElement *xmlTileset) {
+Tileset Parser::ParseOutsideTileset(TiXmlElement *xmlTileset) {
     Tileset tileset;
 
     xmlTileset->Attribute("firstgid", &tileset.FirstID);
@@ -143,7 +137,7 @@ Tileset MapParser::ParseOutsideTileset(TiXmlElement *xmlTileset) {
     return tileset;
 }
 
-TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset> tilesets, int tileSize, int rowCount, int colCount) {
+TileLayer *Parser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset> tilesets, int tileSize, int rowCount, int colCount) {
     TiXmlElement *data = nullptr;
     for (TiXmlElement *e = xmlLayer->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
@@ -181,7 +175,7 @@ TileLayer *MapParser::ParseTileLayer(TiXmlElement *xmlLayer, std::vector<Tileset
     return (new TileLayer(tileSize, rowCount, colCount, tilemap, tilesets));
 }
 
-std::string MapParser::ExtractMapDir(const char *levelFile) {
+std::string Parser::ExtractMapDir(const char *levelFile) {
     std::string path(levelFile);
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     static const std::string slash = "\\";

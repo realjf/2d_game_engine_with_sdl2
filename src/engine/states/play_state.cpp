@@ -15,15 +15,15 @@ void PlayState::Events() {
 bool PlayState::Init() {
     m_Ctxt = Engine::GetInstance()->GetRenderer();
 
-    if (!TextureManager::GetInstance()->ParseTextures("assets/data/textures.xml")) {
+    if (!Parser::GetInstance()->ParseTextures("assets/data/textures.xml")) {
         std::cout << "Failed to load textures" << std::endl;
         return false;
     }
-    if ((m_Map = MapParser::GetInstance()->Load("assets/maps/map.tmx")) == nullptr) {
+    if ((m_Map = Parser::GetInstance()->ParseMap("assets/maps/map.tmx")) == nullptr) {
         std::cout << "Failed to load map" << std::endl;
         return false;
     }
-    TileLayer *collisionLayer = (TileLayer *)m_Map->GetMapLayers().back();
+    TileLayer *collisionLayer = (TileLayer *)m_Map->GetLayers().back();
 
     int tileSize = collisionLayer->GetTileSize();
     int width = collisionLayer->GetWidth() * tileSize;
@@ -64,6 +64,9 @@ void PlayState::Update() {
     Events();
 
     float dt = Timer::GetInstance()->GetDeltaTime();
+    for (auto imgLayer : m_ParalaxBg)
+        imgLayer->Update();
+
     for (auto gameobj : m_GameObjects)
         gameobj->Update(dt);
 
@@ -74,6 +77,9 @@ void PlayState::Update() {
 void PlayState::Render() {
     // SDL_SetRenderDrawColor(m_Ctxt, 48, 96, 130, 255);
     // SDL_RenderClear(m_Ctxt);
+
+    for (auto imgLayer : m_ParalaxBg)
+        imgLayer->Render();
 
     m_Map->Render();
 

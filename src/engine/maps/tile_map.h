@@ -24,12 +24,16 @@ public:
         m_MapLayers.clear();
     }
 
+    inline void PushLayer(Layer *layer) {
+        m_MapLayers.push_back(layer);
+    }
+
     std::vector<Layer *> GetLayers() {
         return m_MapLayers;
     }
 
 private:
-    friend class MapParser;
+    friend class Parser;
     std::vector<Layer *> m_MapLayers;
 };
 

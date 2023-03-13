@@ -4,7 +4,6 @@
 #include "characters/warrior.h"
 #include "inputs/input.h"
 #include "timer/timer.h"
-#include "maps/map_parser.h"
 #include "camera/camera.h"
 #include "characters/enemy.h"
 #include "factory/object_factory.h"

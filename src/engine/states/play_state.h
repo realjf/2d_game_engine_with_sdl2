@@ -9,28 +9,30 @@
 #include "timer/timer.h"
 #include "camera/camera.h"
 #include "inputs/input.h"
-#include "maps/map_parser.h"
+#include "parser/parser.h"
 #include "maps/tile_layer.h"
 #include "graphics/texture_manager.h"
 #include "factory/object_factory.h"
+#include "maps/image_layer.h"
 
 class PlayState : public GameState {
 public:
     PlayState();
-    virtual ~PlayState(){}
+    virtual ~PlayState() {}
     void Events();
     virtual bool Init();
     virtual bool Exit();
     virtual void Update();
     virtual void Render();
-    inline GameMap *GetMap() { return m_Map; }
+    inline TileMap *GetMap() { return m_Map; }
 
 private:
     static void OpenMenu();
     static void PauseGame();
 
 private:
-    GameMap *m_Map;
+    TileMap *m_Map;
+    std::vector<ImageLayer *> m_ParalaxBg;
     std::vector<GameObject *> m_GameObjects;
 };
 

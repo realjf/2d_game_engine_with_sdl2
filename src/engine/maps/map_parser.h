@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include "game_map.h"
+#include "tile_map.h"
 #include "tile_layer.h"
 #include <tinyxml.h>
 
@@ -18,9 +18,9 @@ public:
         return s_Instance;
     }
 
-    GameMap *Load(std::string source);
+    TileMap *Load(std::string source);
     void Clean();
-    inline GameMap *GetMap(std::string id) {
+    inline TileMap *GetMap(std::string id) {
         return m_Maps[id];
     }
 
@@ -37,7 +37,7 @@ private:
     }
 
 private:
-    std::map<std::string, GameMap *> m_Maps;
+    std::map<std::string, TileMap *> m_Maps;
     std::string m_MapDir;
     static MapParser *s_Instance;
 };

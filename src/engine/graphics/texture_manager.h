@@ -5,6 +5,7 @@
 #include <map>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "physics/transform.h"
 
 using TextureMap = std::map<std::string, SDL_Texture *>;
 
@@ -21,9 +22,12 @@ public:
     void Draw(std::string id, int x, int y, int width, int height, float xScale, float yScale, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawFrame(std::string id, int x, int y, int width, int height, float scale, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawTile(std::string tilesetID, int tileSize, int x, int y, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void Draw(Transform *tf);
 
     inline SDL_Texture *GetTexture(std::string id) { return m_TextureMap[id]; }
     TextureMap GetTextureMap() { return m_TextureMap; }
+
+    void QueryTexture(std::string textureID, int *width, int *height);
 
 private:
     TextureManager() {}

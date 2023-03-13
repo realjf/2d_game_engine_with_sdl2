@@ -34,6 +34,10 @@ public:
     inline bool IsRunning() { return m_IsRunning; }
     inline SDL_Renderer *GetRenderer() { return m_Renderer; }
     inline StateManager *GetStateManager() { return m_StateManager; }
+    inline SDL_Rect GetViewPort() {
+        SDL_RenderGetViewport(m_Renderer, &m_ViewPort);
+        return m_ViewPort;
+    }
 
 private:
     Engine() {
@@ -45,6 +49,7 @@ private:
     SDL_Renderer *m_Renderer;
     std::vector<GameObject *> m_GameObjects;
     StateManager *m_StateManager;
+    SDL_Rect m_ViewPort;
     static Engine *s_Instance;
 };
 

@@ -7,6 +7,13 @@
 #include <functional>
 #include "object/game_object.h"
 
+using ObjectPtr = std::unique_ptr<GameObject>;
+using ObjectList = std::vector<ObjectPtr>;
+enum ObjectCategory {
+    SCENE_OBJECTS = 0,
+    GAME_OBJECTS = 1
+};
+
 class ObjectFactory {
 public:
     GameObject *CreateObject(std::string type, Properties *props);
