@@ -2,8 +2,10 @@
 #define _CLIMAT_EMITTER_H_
 
 #include <vector>
+#include <string>
 #include "particle.h"
 #include "physics/transform.h"
+#include "math/helpers.h"
 
 #define RAIN_PARTICLE_COUNT 800
 #define SNOW_PARTICLE_COUNT 400
@@ -59,12 +61,12 @@ public:
     }
 
     void UpdateParticles(float dt) {
-        for (int i = 0; i < m_Partiles.size(); i++) {
-            if (m_Partiles[i]->IsDead()) {
-                delete m_Partiles[i];
-                m_Partiles[i] = NewParticle();
+        for (int i = 0; i < m_Particles.size(); i++) {
+            if (m_Particles[i]->IsDead()) {
+                delete m_Particles[i];
+                m_Particles[i] = NewParticle();
             } else {
-                m_Partiles[i]->Move(dt);
+                m_Particles[i]->Move(dt);
             }
         }
     }

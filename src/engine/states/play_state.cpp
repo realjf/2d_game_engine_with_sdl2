@@ -4,6 +4,9 @@
 #include "characters/warrior.h"
 #include "characters/enemy.h"
 #include "menu_state.h"
+#include "particles/climat_emitter.h"
+
+ClimatEmitter *rEmttr = nullptr;
 
 PlayState::PlayState() {
 }
@@ -23,6 +26,9 @@ bool PlayState::Init() {
         std::cout << "Failed to load map" << std::endl;
         return false;
     }
+
+    rEmttr = new ClimatEmitter(LIGHTNING);
+
     TileLayer *collisionLayer = (TileLayer *)m_Map->GetLayers().back();
 
     int tileSize = collisionLayer->GetTileSize();
@@ -71,6 +77,8 @@ void PlayState::Update() {
         gameobj->Update(dt);
 
     Camera::GetInstance()->Update(dt);
+
+    rEmttr->UpdateParticles(dt);
     m_Map->Update();
 }
 
@@ -87,6 +95,8 @@ void PlayState::Render() {
         gameobj->Draw();
 
     SDL_Rect camera = Camera::GetInstance()->GetViewBox();
+
+    rEmttr->RenderParticles();
 
     SDL_RenderCopy(m_Ctxt, nullptr, &camera, nullptr);
     // SDL_RenderPresent(m_Ctxt);
