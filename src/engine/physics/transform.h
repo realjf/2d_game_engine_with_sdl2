@@ -12,7 +12,6 @@ public:
     float ScaleX, ScaleY;
     float Angle;
     SDL_RendererFlip Flip;
-    float ScrollRatio;
     float SyncRatio;
     Vector2D *Origin;
 
@@ -28,12 +27,11 @@ public:
         ScaleY = tf->ScaleY;
         Angle = tf->Angle;
         TextureID = tf->TextureID;
-        ScrollRatio = tf->ScrollRatio;
         SyncRatio = tf->SyncRatio;
         Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
     }
 
-    Transform(float x, float y, int width, int height, std::string textureID, float scaleX = 1.0f, float scaleY = 1.0f, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) {
+    Transform(float x, float y, int width, int height, std::string textureID, float scaleX = 1.0f, float scaleY = 1.0f, float angle = 0.0f, float syncRatio = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) {
         X = x;
         Y = y;
         Flip = flip;
@@ -43,6 +41,7 @@ public:
         ScaleY = scaleY;
         Angle = angle;
         TextureID = textureID;
+        SyncRatio = syncRatio;
         Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
     }
 
