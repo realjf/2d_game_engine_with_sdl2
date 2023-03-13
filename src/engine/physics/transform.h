@@ -10,11 +10,27 @@ public:
     int Width, Height;
     Vector2D *Origin;
     float ScrollRatio;
+    float SyncRatio;
     float ScaleX, ScaleY;
     SDL_RendererFlip Flip;
     std::string TextureID;
 
 public:
+    Transform(Transform *tf) {
+        X = tf->X;
+        Y = tf->Y;
+        Flip = tf->Flip;
+        Width = tf->Width;
+        Height = tf->Height;
+        ScaleX = tf->ScaleX;
+        ScaleY = tf->ScaleY;
+        Rotation = tf->Rotation;
+        TextureID = tf->TextureID;
+        ScrollRatio = tf->ScrollRatio;
+        SyncRatio = tf->SyncRatio;
+        Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
+    }
+
     Transform(float x = 0.0f, float y = 0.0f, int width = 0.0f, int height = 0.0f,
               std::string textureID = "", float scaleX = 1.0f, float scaleY = 1.0f,
               float rotation = 0.0f, float scrollRatio = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) {
@@ -28,7 +44,7 @@ public:
         Rotation = rotation;
         TextureID = textureID;
         ScrollRatio = scrollRatio;
-        Origin = new Vector2D((X + Width), (Y + Height));
+        Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
     }
 
     void Log(std::string msg = "") {

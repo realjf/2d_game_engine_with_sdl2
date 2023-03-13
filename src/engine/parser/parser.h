@@ -15,6 +15,8 @@ public:
 
     bool ParseSounds(std::string source);
     bool ParseTextures(std::string source);
+    bool ParseFonts(std::string source);
+    bool ParseGameObjects(std::string source);
     TileMap *ParseMap(std::string source);
 
 private:

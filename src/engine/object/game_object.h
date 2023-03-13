@@ -6,6 +6,12 @@
 #include <SDL.h>
 #include "math/point.h"
 
+enum class ObjectCategory {
+    OBJECT = 0,
+    PLAYER,
+    ENEMY
+};
+
 struct Properties {
 public:
     Properties(std::string textureID, int x, int y, int width, int height, float scale, SDL_RendererFlip flip = SDL_FLIP_NONE) {
@@ -30,7 +36,7 @@ class GameObject : public Object {
 
 public:
     GameObject(Properties *props) : m_Width(props->Width), m_Height(props->Height), m_TextureID(props->TextureID), m_Flip(props->Flip), m_Scale(props->Scale) {
-        m_Transform = new Transform(props->X, props->Y);
+        m_Transform = new Transform(props->X, props->Y, props->Width, props->Height, props->TextureID);
         float px = props->X + (props->Width * props->Scale) / 2;
         float py = props->Y + (props->Height * props->Scale) / 2;
         m_Origin = new Point(px, py);
@@ -51,6 +57,10 @@ protected:
     float m_Scale;
     float m_XScale, m_YScale;
     Point *m_Origin;
+    ObjectCategory m_Category;
 };
+
+using ObjectPtr = GameObject *;
+using ObjectList = std::vector<ObjectPtr>;
 
 #endif /* _GAME_OBJECT_H_ */

@@ -11,8 +11,8 @@ public:
     void Update(float dt);
     inline static Camera *GetInstance() { return s_Instance = (s_Instance == nullptr) ? new Camera() : s_Instance; }
 
-    inline SDL_Rect GetViewBox() { return m_ViewBox; }
-    inline Vector2D GetPosition() { return m_Position; }
+    inline SDL_Rect GetViewBox() { return m_ViewPort; }
+    inline Vector2D GetPosition() { return m_CurrentPosition; }
     inline void SetTarget(Point *target) { m_Target = target; }
     inline void SetSceneLimit(int width, int height) {
         m_SceneWidth = width;
@@ -21,17 +21,31 @@ public:
     inline int GetSceneWidth() { return m_SceneWidth; }
     inline int GetSceneHeight() { return m_SceneHeight; }
 
-    inline void MoveX(float x) { m_Position.X = x; }
-    inline void MoveY(float y) { m_Position.Y = y; }
+    inline void MoveX(float x) { m_CurrentPosition.X = x; }
+    inline void MoveY(float y) { m_CurrentPosition.Y = y; }
+
+    const Vector2D SyncObject(Transform tf) {
+        const float targetX = (tf.X - m_CurrentPosition.X * tf.SyncRatio);
+        const float targetY = (tf.Y - m_CurrentPosition.Y * tf.SyncRatio);
+        return Vector2D(targetX, targetY);
+    }
+
+    void Draw() {
+        SDL_Renderer *rdr = Engine::GetInstance()->GetRenderer();
+        SDL_SetRenderDrawColor(rdr, 0xFF, 0x50, 0x50, 0xFF);
+        SDL_RenderDrawRect(rdr, &m_ViewPort);
+    }
+
+    bool GetInsectionWithViewPort(const SDL_Rect *rect);
 
 private:
     Camera() {
-        m_ViewBox = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+        m_ViewPort = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     }
 
     Point *m_Target;
-    Vector2D m_Position;
-    SDL_Rect m_ViewBox;
+    Vector2D m_CurrentPosition;
+    SDL_Rect m_ViewPort;
     int m_SceneWidth, m_SceneHeight;
 
     static Camera *s_Instance;

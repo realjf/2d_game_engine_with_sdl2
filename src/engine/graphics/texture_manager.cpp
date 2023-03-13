@@ -7,6 +7,11 @@
 TextureManager *TextureManager::s_Instance = nullptr;
 
 bool TextureManager::Load(std::string id, std::string filename) {
+    if (m_TextureMap.count(id) > 0) {
+        std::cout << id << " already loaded!" << std::endl;
+        return true;
+    }
+
     SDL_Surface *surface = IMG_Load(filename.c_str());
     if (surface == nullptr) {
         SDL_Log("Failed to load texture: %s, %s", filename.c_str(), SDL_GetError());
@@ -109,6 +114,5 @@ void TextureManager::Draw(Transform *tf) {
 }
 
 void TextureManager::QueryTexture(std::string textureID, int *width, int *height) {
-    SDL_Texture *texture = GetTexture(textureID);
-    SDL_QueryTexture(texture, nullptr, nullptr, width, height);
+    SDL_QueryTexture(m_TextureMap[textureID], nullptr, nullptr, width, height);
 }

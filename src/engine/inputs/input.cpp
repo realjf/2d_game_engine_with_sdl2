@@ -20,6 +20,15 @@ void Input::Listen() {
         case SDL_KEYUP:
             KeyUp(&event.key);
             break;
+        case SDL_MOUSEBUTTONDOWN:
+            MouseButtonDown(event);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            MouseButtonUp(event);
+            break;
+        case SDL_MOUSEMOTION:
+            MouseMotion(event);
+            break;
         }
     }
 }
@@ -29,6 +38,9 @@ bool Input::GetKeyDown(SDL_Scancode key) {
         return true;
 
     return false;
+}
+
+Dir Input::GetDirectionKey() {
 }
 
 int Input::GetAxisKey(Axis axis) {
@@ -55,4 +67,13 @@ void Input::KeyUp(SDL_KeyboardEvent *event) {
 
 void Input::KeyDown(SDL_KeyboardEvent *event) {
     m_KeyStates = SDL_GetKeyboardState(nullptr);
+}
+
+void Input::MouseMotion(SDL_Event event) {
+}
+
+void Input::MouseButtonUp(SDL_Event event) {
+}
+
+void Input::MouseButtonDown(SDL_Event event) {
 }

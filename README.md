@@ -11,3 +11,11 @@ make deps
 make build
 make run
 ```
+
+### Dependencies
+
+- SDL
+- SDL_image
+- SDL_mixer
+- SDL_ttf
+- tinyxml

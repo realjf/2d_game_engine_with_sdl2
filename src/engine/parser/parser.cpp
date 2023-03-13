@@ -50,6 +50,16 @@ bool Parser::ParseTextures(std::string source) {
     return true;
 }
 
+bool Parser::ParseFonts(std::string source)
+{
+
+}
+
+bool Parser::ParseGameObjects(std::string source)
+{
+
+}
+
 TileMap *Parser::ParseMap(std::string source) {
     TiXmlDocument xml;
     xml.LoadFile(source.c_str());
