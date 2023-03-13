@@ -9,7 +9,7 @@
 static Registrar<Warrior> registrar("PLAYER");
 
 void Warrior::Draw() {
-    m_Animation->Draw(m_Transform->X, m_Transform->Y, m_Width, m_Height, m_Scale);
+    m_Animation->Draw(m_Transform->X, m_Transform->Y, m_Transform->Width, m_Transform->Height, m_Transform->ScaleX, m_Transform->ScaleY, m_Transform->Flip);
 
     m_Collider->Draw();
 }
@@ -91,9 +91,7 @@ void Warrior::Update(float dt) {
     // } else {
     //     m_IsGrounded = false;
     // }
-
-    m_Origin->X = m_Transform->X + (m_Width * m_Scale) / 2;
-    m_Origin->Y = m_Transform->Y + (m_Height * m_Scale) / 2;
+    m_Transform->SyncOrigin();
 
     AnimationState();
 
@@ -102,7 +100,7 @@ void Warrior::Update(float dt) {
 }
 
 void Warrior::Clean() {
-    TextureManager::GetInstance()->Drop(m_TextureID);
+    TextureManager::GetInstance()->Drop(m_Transform->TextureID);
 }
 
 void Warrior::AnimationState() {
@@ -117,10 +115,10 @@ void Warrior::AnimationState() {
     }
 }
 
-Warrior::Warrior(Properties *props) : Character(props) {
+Warrior::Warrior(Transform *tf) : Character(tf) {
     m_RigidBody = new RigidBody();
     m_Animation = new SpriteAnimation();
-    m_Animation->SetProps(m_TextureID, 0, 5, 100, SDL_FLIP_HORIZONTAL);
+    m_Animation->SetProps(tf->TextureID, 0, 5, 100, SDL_FLIP_HORIZONTAL);
 
     m_JumpTime = JUMP_TIME;
     m_JumpForce = JUMP_FORCE;

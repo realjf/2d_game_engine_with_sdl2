@@ -90,11 +90,11 @@ void TextureManager::Draw(std::string id, int x, int y, int width, int height, f
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
 }
 
-void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, float scale, int row, int frame, SDL_RendererFlip flip) {
+void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, float xScale, float yScale, int row, int frame, SDL_RendererFlip flip) {
     SDL_Rect srcRect = {width * frame, height * row, width, height};
 
     Vector2D cam = Camera::GetInstance()->GetPosition();
-    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), static_cast<int>(width * scale), static_cast<int>(height * scale)};
+    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), static_cast<int>(width * xScale), static_cast<int>(height * yScale)};
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
 }
 
@@ -108,6 +108,14 @@ void TextureManager::DrawTile(std::string tilesetID, int tileSize, int x, int y,
 
 void TextureManager::Draw(Transform *tf) {
     SDL_Rect srcRect = {0, 0, tf->Width, tf->Height};
+    Vector2D cam = Camera::GetInstance()->GetPosition();
+    SDL_Rect dstRect = {static_cast<int>(tf->X - cam.X), static_cast<int>(tf->Y - cam.Y), static_cast<int>(tf->Width * tf->ScaleX), static_cast<int>(tf->Height * tf->ScaleY)};
+    SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[tf->TextureID], &srcRect, &dstRect, 0, nullptr, tf->Flip);
+}
+
+void TextureManager::DrawFrame(Transform *tf, int row, int frame) {
+    SDL_Rect srcRect = {tf->Width * frame, tf->Height * row, tf->Width, tf->Height};
+
     Vector2D cam = Camera::GetInstance()->GetPosition();
     SDL_Rect dstRect = {static_cast<int>(tf->X - cam.X), static_cast<int>(tf->Y - cam.Y), static_cast<int>(tf->Width * tf->ScaleX), static_cast<int>(tf->Height * tf->ScaleY)};
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[tf->TextureID], &srcRect, &dstRect, 0, nullptr, tf->Flip);

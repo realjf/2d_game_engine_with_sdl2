@@ -1,7 +1,10 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
+#include <vector>
 #include <SDL.h>
+#include "math/vector2D.h"
+#include "core/shared_recursive_mutex.h"
 
 enum Axis { HORIZONTAL,
             VERTICAL };
@@ -15,9 +18,9 @@ enum Dir {
 };
 
 enum MouseButton {
-    LEFT,
-    MIDDLE,
-    RIGHT
+    MOUSE_LEFT,
+    MOUSE_MIDDLE,
+    MOUSE_RIGHT
 };
 
 class Input {
@@ -33,6 +36,12 @@ public:
     inline Vector2D GetMousePosition() { return m_MousePosition; }
     inline Vector2D GetMouseLastPosition() { return m_MouseLastPosition; }
 
+    inline void Reset() {
+        SetMouseButtonState(MOUSE_LEFT, false);
+        SetMouseButtonState(MOUSE_RIGHT, false);
+        SetMouseButtonState(MOUSE_MIDDLE, false);
+    }
+
 private:
     Input();
     void KeyUp(SDL_KeyboardEvent *event);
@@ -42,10 +51,19 @@ private:
     void MouseButtonUp(SDL_Event event);
     void MouseButtonDown(SDL_Event event);
 
+    inline void SetMouseButtonState(MouseButton button, bool state) {
+        m_MouseButtonStates[button] = state;
+    }
+
+    inline void SetMousePosition(float x, float y) {
+        m_MousePosition = Vector2D(x, y);
+    }
+
 private:
     const Uint8 *m_KeyStates;
     Vector2D m_MousePosition;
     Vector2D m_MouseLastPosition;
+    SharedRecursiveMutex m_MouseLock;
     std::vector<bool> m_MouseButtonStates;
     static Input *s_Instance;
 };

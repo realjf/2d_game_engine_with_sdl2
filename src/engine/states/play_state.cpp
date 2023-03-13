@@ -5,6 +5,7 @@
 #include "characters/enemy.h"
 #include "menu_state.h"
 #include "particles/climat_emitter.h"
+#include "physics/transform.h"
 
 ClimatEmitter *rEmttr = nullptr;
 
@@ -12,7 +13,7 @@ PlayState::PlayState() {
 }
 
 void PlayState::Events() {
-    SDL_Delay(100);
+    // SDL_Delay(100);
 }
 
 bool PlayState::Init() {
@@ -38,10 +39,10 @@ bool PlayState::Init() {
     Camera::GetInstance()->SetSceneLimit(width, height);
     CollisionManager::GetInstance()->SetCollisionMap(collisionLayer->GetTileMap(), tileSize);
 
-    Properties *props = new Properties("player_idle", 100, 100, 800, 710, 0.1f);
-    GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", props);
-    Properties *props2 = new Properties("boss_idle", 400, 100, 800, 710, 0.1f);
-    GameObject *enemy = ObjectFactory::GetInstance()->CreateObject("BOSS", props2);
+    Transform *tf = new Transform(100, 100, 800, 710, "player_idle", 0.1f, 0.1f);
+    GameObject *player = ObjectFactory::GetInstance()->CreateObject("PLAYER", tf);
+    Transform *tf2 = new Transform(400, 100, 800, 710, "boss_idle", 0.1f, 0.1f);
+    GameObject *enemy = ObjectFactory::GetInstance()->CreateObject("BOSS", tf2);
     m_GameObjects.push_back(player);
     m_GameObjects.push_back(enemy);
     Camera::GetInstance()->SetTarget(player->GetOrigin());

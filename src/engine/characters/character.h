@@ -5,7 +5,7 @@
 
 class Character : public GameObject {
 public:
-    Character(Properties *props) : GameObject(props) {}
+    Character(Transform *tf) : GameObject(tf) {}
 
     virtual ~Character() {}
 

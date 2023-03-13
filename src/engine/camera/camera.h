@@ -13,7 +13,7 @@ public:
 
     inline SDL_Rect GetViewBox() { return m_ViewPort; }
     inline Vector2D GetPosition() { return m_CurrentPosition; }
-    inline void SetTarget(Point *target) { m_Target = target; }
+    inline void SetTarget(Vector2D *target) { m_Target = target; }
     inline void SetSceneLimit(int width, int height) {
         m_SceneWidth = width;
         m_SceneHeight = height;
@@ -43,7 +43,7 @@ private:
         m_ViewPort = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     }
 
-    Point *m_Target;
+    Vector2D *m_Target;
     Vector2D m_CurrentPosition;
     SDL_Rect m_ViewPort;
     int m_SceneWidth, m_SceneHeight;

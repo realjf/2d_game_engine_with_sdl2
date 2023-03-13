@@ -1,6 +1,11 @@
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
+#include <vector>
+#include <string>
+#include <SDL.h>
+#include <SDL_timer.h>
+
 const int FPS = 60;
 const float FRAME_PER_SECOND = FPS / 1000.0f;
 

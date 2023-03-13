@@ -15,7 +15,7 @@
 
 class Warrior : public Character {
 public:
-    Warrior(Properties *props);
+    Warrior(Transform *tf);
     virtual ~Warrior() {}
 
     virtual void Draw();

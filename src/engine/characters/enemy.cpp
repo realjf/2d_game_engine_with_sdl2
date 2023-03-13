@@ -3,13 +3,10 @@
 
 static Registrar<Enemy> registrar("BOSS");
 
-Enemy::Enemy(Properties *props) : Character(props) {
+Enemy::Enemy(Transform *tf) : Character(tf) {
     m_RigidBody = new RigidBody();
     m_RigidBody->SetGravity(3.5);
     m_Collider = new Collider();
-    m_XScale = props->Scale;
-    m_YScale = props->Scale;
-    m_Scale = props->Scale;
 
     m_Animation = new SequenceAnimation();
     m_Animation->Parse("assets/data/animation.xml");
@@ -17,7 +14,7 @@ Enemy::Enemy(Properties *props) : Character(props) {
 }
 
 void Enemy::Draw() {
-    m_Animation->DrawFrame(m_Transform->X, m_Transform->Y, m_XScale, m_YScale, m_Flip);
+    m_Animation->DrawFrame(m_Transform->X, m_Transform->Y, m_Transform->ScaleX, m_Transform->ScaleY, m_Transform->Flip);
 
     m_Collider->Draw();
 }

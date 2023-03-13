@@ -5,6 +5,11 @@ Input *Input::s_Instance = nullptr;
 
 Input::Input() {
     m_KeyStates = SDL_GetKeyboardState(nullptr);
+    for (int i = 0; i < 3; i++) {
+        m_MouseButtonStates.push_back(false);
+    }
+    m_MousePosition = Vector2D(0, 0);
+    m_MouseLastPosition = Vector2D(0, 0);
 }
 
 void Input::Listen() {
@@ -70,10 +75,33 @@ void Input::KeyDown(SDL_KeyboardEvent *event) {
 }
 
 void Input::MouseMotion(SDL_Event event) {
+    SetMousePosition(static_cast<float>(event.motion.x), static_cast<float>(event.motion.y));
 }
 
 void Input::MouseButtonUp(SDL_Event event) {
+    if (event.button.button == SDL_BUTTON_LEFT) {
+        SetMouseButtonState(MOUSE_LEFT, false);
+        // std::cout << "mouse left released\n";
+    }
+    if (event.button.button == SDL_BUTTON_MIDDLE) {
+        SetMouseButtonState(MOUSE_MIDDLE, false);
+    }
+    if (event.button.button == SDL_BUTTON_RIGHT) {
+        SetMouseButtonState(MOUSE_RIGHT, false);
+        // std::cout << "mouse right released\n";
+    }
 }
 
 void Input::MouseButtonDown(SDL_Event event) {
+    if (event.button.button == SDL_BUTTON_LEFT) {
+        SetMouseButtonState(MOUSE_LEFT, true);
+        // std::cout << "mouse left clicked\n";
+    }
+    if (event.button.button == SDL_BUTTON_MIDDLE) {
+        SetMouseButtonState(MOUSE_MIDDLE, true);
+    }
+    if (event.button.button == SDL_BUTTON_RIGHT) {
+        SetMouseButtonState(MOUSE_RIGHT, true);
+        // std::cout << "mouse right clicked\n";
+    }
 }

@@ -20,9 +20,10 @@ public:
     void Clean();
 
     void Draw(std::string id, int x, int y, int width, int height, float xScale, float yScale, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void DrawFrame(std::string id, int x, int y, int width, int height, float scale, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawFrame(std::string id, int x, int y, int width, int height, float xScale, float yScale, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawTile(std::string tilesetID, int tileSize, int x, int y, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void Draw(Transform *tf);
+    void DrawFrame(Transform *tf, int row, int frame);
 
     inline SDL_Texture *GetTexture(std::string id) { return m_TextureMap[id]; }
     TextureMap GetTextureMap() { return m_TextureMap; }

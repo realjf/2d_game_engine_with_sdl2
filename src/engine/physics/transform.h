@@ -1,21 +1,23 @@
 #ifndef _TRANSFORM_H_
 #define _TRANSFORM_H_
 
+#include <SDL.h>
 #include "math/vector2D.h"
 
 class Transform {
 public:
     float X, Y;
-    float Rotation;
     int Width, Height;
-    Vector2D *Origin;
+    std::string TextureID;
+    float ScaleX, ScaleY;
+    float Angle;
+    SDL_RendererFlip Flip;
     float ScrollRatio;
     float SyncRatio;
-    float ScaleX, ScaleY;
-    SDL_RendererFlip Flip;
-    std::string TextureID;
+    Vector2D *Origin;
 
 public:
+    Transform() {}
     Transform(Transform *tf) {
         X = tf->X;
         Y = tf->Y;
@@ -24,16 +26,14 @@ public:
         Height = tf->Height;
         ScaleX = tf->ScaleX;
         ScaleY = tf->ScaleY;
-        Rotation = tf->Rotation;
+        Angle = tf->Angle;
         TextureID = tf->TextureID;
         ScrollRatio = tf->ScrollRatio;
         SyncRatio = tf->SyncRatio;
         Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
     }
 
-    Transform(float x = 0.0f, float y = 0.0f, int width = 0.0f, int height = 0.0f,
-              std::string textureID = "", float scaleX = 1.0f, float scaleY = 1.0f,
-              float rotation = 0.0f, float scrollRatio = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) {
+    Transform(float x, float y, int width, int height, std::string textureID, float scaleX = 1.0f, float scaleY = 1.0f, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) {
         X = x;
         Y = y;
         Flip = flip;
@@ -41,9 +41,8 @@ public:
         Height = height;
         ScaleX = scaleX;
         ScaleY = scaleY;
-        Rotation = rotation;
+        Angle = angle;
         TextureID = textureID;
-        ScrollRatio = scrollRatio;
         Origin = new Vector2D((X + Width * ScaleX / 2), (Y + Height * ScaleY / 2));
     }
 
@@ -56,6 +55,10 @@ public:
     inline void Translate(Vector2D v) {
         X += v.X;
         Y += v.Y;
+    }
+    inline void SyncOrigin() {
+        Origin->X = X + Width * ScaleX / 2;
+        Origin->Y = Y + Height * ScaleY / 2;
     }
 };
 

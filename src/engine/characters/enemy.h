@@ -9,7 +9,7 @@
 
 class Enemy : public Character {
 public:
-    Enemy(Properties *props);
+    Enemy(Transform *tf);
 
     virtual void Draw();
     virtual void Clean();
